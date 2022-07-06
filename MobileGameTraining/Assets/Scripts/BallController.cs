@@ -39,13 +39,26 @@ public class BallController : MonoBehaviour
        rb.AddForce(randomDirection * bounceForce, ForceMode2D.Impulse);
     }
 
+    [System.Obsolete]
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        ParticleSystem hitParticles = GameObject.FindGameObjectWithTag("Particle").GetComponent<ParticleSystem>();
+        AudioSource audio = GameObject.Find("Metalic Impact").GetComponent<AudioSource>();
+        audio.Stop();
+        var main = hitParticles.main;
+        hitParticles.Stop();
+        main.duration = 2.0f;
+        main.loop = false;
         if (collision.gameObject.tag == "FallCheck")
         {
+            hitParticles.Stop();
             GameManager.instance.Restart();
-        }else if(collision.gameObject.tag == "Paddle")
+            
+        }
+        else if(collision.gameObject.tag == "Paddle")
         {
+            hitParticles.Play();
+            audio.Play();
             GameManager.instance.ScoreUp();
         }
     }

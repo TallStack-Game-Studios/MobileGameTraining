@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FallCheck
   - Paddle
+  - Particle
   layers:
   - Default
   - TransparentFX
